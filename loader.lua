@@ -1,9 +1,10 @@
-
+-- Load UI first
 loadstring(game:HttpGet("https://raw.githubusercontent.com/211112d/LIB/refs/heads/main/Ui.lua"))()
 
+-- Wait for UI to fully initialize
 task.wait(3)
 
-
+-- Load all modules
 local Settings = loadstring(game:HttpGet("https://raw.githubusercontent.com/211112d/LIB/refs/heads/main/Settings.lua"))()
 local Constants = loadstring(game:HttpGet("https://raw.githubusercontent.com/211112d/LIB/refs/heads/main/Constants.lua"))()
 local Utils = loadstring(game:HttpGet("https://raw.githubusercontent.com/211112d/LIB/refs/heads/main/Utils.lua"))()
@@ -13,14 +14,19 @@ local Movement = loadstring(game:HttpGet("https://raw.githubusercontent.com/2111
 local Features = loadstring(game:HttpGet("https://raw.githubusercontent.com/211112d/LIB/refs/heads/main/Features.lua"))()
 local AntiCheat = loadstring(game:HttpGet("https://raw.githubusercontent.com/211112d/LIB/refs/heads/main/AntiCheat.lua"))()
 
-
+-- Wait for library to be fully ready
 repeat task.wait() until library and library.flags
 
+print("Creating window...")
+
+-- Create the window
 local window = library:window({
     name = "KFC", 
     suffix = ".hook", 
-    gameInfo = string.format("Cryptic : %s", (game.PlaceId == 4991214437 and "Town") or "Universal")
+    gameInfo = "Cryptic : universal"
 })
+
+print("Adding Aimbot tab...")
 
 -- =============================================
 -- AIMBOT TAB
@@ -43,22 +49,22 @@ do
     sec:toggle({
         name = "Master Aimbot",
         flag = "MasterAimbot",
-        default = Settings:Get("MasterAimbot"),
+        default = Settings:Get("MasterAimbot") or false,
         callback = function(bool) Settings:Set("MasterAimbot", bool) end
     })
     
     sec:toggle({
         name = "Enabled",
         flag = "AimbotEnabled",
-        default = Settings:Get("AimbotEnabled"),
+        default = Settings:Get("AimbotEnabled") or false,
         callback = function(bool) Settings:Set("AimbotEnabled", bool) end
     })
     
     sec:dropdown({
         name = "Aim Part",
         flag = "AimPart",
-        items = Constants.AimbotParts,
-        default = Settings:Get("AimPart"),
+        items = Constants.AimbotParts or {"Head", "Torso"},
+        default = Settings:Get("AimPart") or "Head",
         callback = function(val) Settings:Set("AimPart", val) end
     })
     
@@ -66,7 +72,7 @@ do
         name = "Smoothness",
         flag = "AimbotSmoothness",
         min = 1, max = 20,
-        default = Settings:Get("AimbotSmoothness"),
+        default = Settings:Get("AimbotSmoothness") or 1,
         callback = function(val) Settings:Set("AimbotSmoothness", val) end
     })
     
@@ -74,7 +80,7 @@ do
         name = "FOV",
         flag = "AimbotFov",
         min = 30, max = 500,
-        default = Settings:Get("AimbotFov"),
+        default = Settings:Get("AimbotFov") or 100,
         suffix = "px",
         callback = function(val) Settings:Set("AimbotFov", val) end
     })
@@ -82,49 +88,42 @@ do
     sec:toggle({
         name = "Wall Check",
         flag = "WallCheck",
-        default = Settings:Get("WallCheck"),
+        default = Settings:Get("WallCheck") or false,
         callback = function(bool) Settings:Set("WallCheck", bool) end
     })
     
     sec:toggle({
         name = "Team Check",
         flag = "TeamCheck",
-        default = Settings:Get("TeamCheck"),
+        default = Settings:Get("TeamCheck") or false,
         callback = function(bool) Settings:Set("TeamCheck", bool) end
-    })
-    
-    sec:toggle({
-        name = "Sticky Aim",
-        flag = "StickyAim",
-        default = Settings:Get("StickyAim"),
-        callback = function(bool) Settings:Set("StickyAim", bool) end
     })
     
     sec:toggle({
         name = "Prediction",
         flag = "Prediction",
-        default = Settings:Get("Prediction"),
+        default = Settings:Get("Prediction") or false,
         callback = function(bool) Settings:Set("Prediction", bool) end
     })
     
     sec:toggle({
         name = "Auto Shoot",
         flag = "AutoShoot",
-        default = Settings:Get("AutoShoot"),
+        default = Settings:Get("AutoShoot") or false,
         callback = function(bool) Settings:Set("AutoShoot", bool) end
     })
     
     sec:toggle({
         name = "Target AI",
         flag = "AimbotTargetAi",
-        default = Settings:Get("AimbotTargetAi"),
+        default = Settings:Get("AimbotTargetAi") or false,
         callback = function(bool) Settings:Set("AimbotTargetAi", bool) end
     })
     
     sec:toggle({
         name = "Target Players",
         flag = "AimbotPlayer",
-        default = Settings:Get("AimbotPlayer"),
+        default = Settings:Get("AimbotPlayer") or true,
         callback = function(bool) Settings:Set("AimbotPlayer", bool) end,
         seperator = true
     })
@@ -141,32 +140,27 @@ do
     sec:toggle({
         name = "Show FOV Circle",
         flag = "FovVisible",
-        default = Settings:Get("FovVisible"),
+        default = Settings:Get("FovVisible") or false,
         callback = function(bool) Settings:Set("FovVisible", bool) end
     })
     
     sec:colorpicker({
         name = "FOV Color",
         flag = "FovColor",
-        color = Settings:Get("FovColor"),
+        color = Settings:Get("FovColor") or Color3.fromRGB(129, 210, 255),
         callback = function(color) Settings:Set("FovColor", color) end
     })
     
     sec:toggle({
         name = "Show Tracer",
         flag = "AimbotTracer",
-        default = Settings:Get("AimbotTracer"),
-        callback = function(bool) Settings:Set("AimbotTracer", bool) end
-    })
-    
-    sec:colorpicker({
-        name = "Tracer Color",
-        flag = "AimbotTracerColor",
-        color = Settings:Get("AimbotTracerColor"),
-        callback = function(color) Settings:Set("AimbotTracerColor", color) end,
+        default = Settings:Get("AimbotTracer") or false,
+        callback = function(bool) Settings:Set("AimbotTracer", bool) end,
         seperator = true
     })
 end
+
+print("Adding ESP tab...")
 
 -- =============================================
 -- ESP TAB
@@ -221,13 +215,6 @@ do
         callback = function(bool) Settings:Set("ShowHealth", bool) end
     })
     
-    sec:toggle({
-        name = "Show Chams",
-        flag = "ShowChams",
-        default = false,
-        callback = function(bool) Settings:Set("ShowChams", bool) end
-    })
-    
     sec:slider({
         name = "Max Distance",
         flag = "MaxDistance",
@@ -250,46 +237,48 @@ do
     sec:toggle({
         name = "Dropped Items",
         flag = "DroppedItemESP",
-        default = Settings:Get("DroppedItemESP"),
+        default = Settings:Get("DroppedItemESP") or false,
         callback = function(bool) Settings:Set("DroppedItemESP", bool) end
     })
     
     sec:toggle({
         name = "Corpses",
         flag = "CorpseESP",
-        default = Settings:Get("CorpseESP"),
+        default = Settings:Get("CorpseESP") or false,
         callback = function(bool) Settings:Set("CorpseESP", bool) end
     })
     
     sec:toggle({
         name = "Containers",
         flag = "ContainerESP",
-        default = Settings:Get("ContainerESP"),
+        default = Settings:Get("ContainerESP") or false,
         callback = function(bool) Settings:Set("ContainerESP", bool) end
     })
     
     sec:toggle({
         name = "Exit Locations",
         flag = "ExitESP",
-        default = Settings:Get("ExitESP"),
+        default = Settings:Get("ExitESP") or false,
         callback = function(bool) Settings:Set("ExitESP", bool) end
     })
     
     sec:toggle({
         name = "Quest Items",
         flag = "QuestESP",
-        default = Settings:Get("QuestESP"),
+        default = Settings:Get("QuestESP") or false,
         callback = function(bool) Settings:Set("QuestESP", bool) end
     })
     
     sec:toggle({
         name = "Vehicles",
         flag = "VehicleTag",
-        default = Settings:Get("VehicleTag"),
+        default = Settings:Get("VehicleTag") or false,
         callback = function(bool) Settings:Set("VehicleTag", bool) end,
         seperator = true
     })
 end
+
+print("Adding Movement tab...")
 
 -- =============================================
 -- MOVEMENT TAB
@@ -311,7 +300,7 @@ do
     sec:toggle({
         name = "Speed Hack",
         flag = "SpeedHack",
-        default = Settings:Get("SpeedHack"),
+        default = Settings:Get("SpeedHack") or false,
         callback = function(bool) Settings:Set("SpeedHack", bool) end
     })
     
@@ -319,32 +308,34 @@ do
         name = "Speed",
         flag = "SpeedHackSpeed",
         min = 17, max = 100,
-        default = Settings:Get("SpeedHackSpeed"),
+        default = Settings:Get("SpeedHackSpeed") or 17,
         callback = function(val) Settings:Set("SpeedHackSpeed", val) end
     })
     
     sec:toggle({
         name = "Infinity Jump",
         flag = "InfinityJump",
-        default = Settings:Get("InfinityJump"),
+        default = Settings:Get("InfinityJump") or false,
         callback = function(bool) Settings:Set("InfinityJump", bool) end
     })
     
     sec:toggle({
         name = "Bunny Hop",
         flag = "BunnyHop",
-        default = Settings:Get("BunnyHop"),
+        default = Settings:Get("BunnyHop") or false,
         callback = function(bool) Settings:Set("BunnyHop", bool) end
     })
     
     sec:toggle({
         name = "No Fall Damage",
         flag = "NoFall",
-        default = Settings:Get("NoFall"),
+        default = Settings:Get("NoFall") or false,
         callback = function(bool) Settings:Set("NoFall", bool) end,
         seperator = true
     })
 end
+
+print("Adding World tab...")
 
 -- =============================================
 -- WORLD TAB
@@ -366,40 +357,49 @@ do
     sec:toggle({
         name = "Full Brightness",
         flag = "FullBrightness",
-        default = Settings:Get("FullBrightness"),
+        default = Settings:Get("FullBrightness") or false,
         callback = function(bool) Settings:Set("FullBrightness", bool) end
     })
     
     sec:toggle({
         name = "No Fog",
         flag = "NoFog",
-        default = Settings:Get("NoFog"),
+        default = Settings:Get("NoFog") or false,
         callback = function(bool) Settings:Set("NoFog", bool) end
     })
     
     sec:toggle({
         name = "X-Ray",
         flag = "Xray",
-        default = Settings:Get("Xray"),
+        default = Settings:Get("Xray") or false,
         callback = function(bool) Settings:Set("Xray", bool) end
     })
     
     sec:toggle({
         name = "No Landmines",
         flag = "NoLandMine",
-        default = Settings:Get("NoLandMine"),
+        default = Settings:Get("NoLandMine") or false,
         callback = function(bool) Settings:Set("NoLandMine", bool) end,
         seperator = true
     })
 end
 
+print("Adding Config tab...")
 
+-- =============================================
+-- CONFIGS TAB
+-- =============================================
 library:init_config(window)
 
-Aimbot:Start()
-ESP:Start()
-Movement:Start()
-Features:Start()
-AntiCheat:Start()
+print("Starting all features...")
 
-print("KFC Hook - Fully Loaded!")
+-- =============================================
+-- START ALL FEATURES
+-- =============================================
+pcall(function() Aimbot:Start() end)
+pcall(function() ESP:Start() end)
+pcall(function() Movement:Start() end)
+pcall(function() Features:Start() end)
+pcall(function() AntiCheat:Start() end)
+
+print("KFC Hook - All tabs and features loaded!")
