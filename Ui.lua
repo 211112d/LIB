@@ -82,7 +82,7 @@ if LPH_OBFUSCATED == nil then
     LRM_UserNote = "Developer"
 end
 
-local Game_Name = (game.PlaceId == 4991214437 and "Town") or "Universal"
+local Game_Name = (game.PlaceId == 7336302630 and "ProjectDelta") or "Universal"
 
 if not getexecutorname then
     getexecutorname = identifyexecutor
