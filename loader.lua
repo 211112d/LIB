@@ -1,17 +1,17 @@
 
-loadstring(game:HttpGet(""))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/211112d/LIB/refs/heads/main/Ui.lua"))()
 
 task.wait(3)
 
 
-local Settings = loadstring(game:HttpGet(""))()
-local Constants = loadstring(game:HttpGet(""))()
-local Utils = loadstring(game:HttpGet(""))()
-local Aimbot = loadstring(game:HttpGet(""))()
-local ESP = loadstring(game:HttpGet(""))()
-local Movement = loadstring(game:HttpGet(""))()
-local Features = loadstring(game:HttpGet(""))()
-local AntiCheat = loadstring(game:HttpGet(""))()
+local Settings = loadstring(game:HttpGet("https://raw.githubusercontent.com/211112d/LIB/refs/heads/main/Settings.lua"))()
+local Constants = loadstring(game:HttpGet("https://raw.githubusercontent.com/211112d/LIB/refs/heads/main/Constants.lua"))()
+local Utils = loadstring(game:HttpGet("https://raw.githubusercontent.com/211112d/LIB/refs/heads/main/Utils.lua"))()
+local Aimbot = loadstring(game:HttpGet("https://raw.githubusercontent.com/211112d/LIB/refs/heads/main/Aimbot.lua"))()
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/211112d/LIB/refs/heads/main/ESP.lua"))()
+local Movement = loadstring(game:HttpGet("https://raw.githubusercontent.com/211112d/LIB/refs/heads/main/Movement.lua"))()
+local Features = loadstring(game:HttpGet("https://raw.githubusercontent.com/211112d/LIB/refs/heads/main/Features.lua"))()
+local AntiCheat = loadstring(game:HttpGet("https://raw.githubusercontent.com/211112d/LIB/refs/heads/main/AntiCheat.lua"))()
 
 
 repeat task.wait() until library and library.flags
