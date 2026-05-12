@@ -3836,6 +3836,122 @@ end
 
 local window = library:window({name = "KFC", suffix = ".hook", gameInfo = string.format("Cryptic : %s", Game_Name:lower())})
 
+-- =============================================
+-- AIMBOT TAB
+-- =============================================
+local AimMain, AimVisuals = window:tab({
+    name = "Aimbot",
+    icon = GetImage("Aimlock.png"),
+    tabs = {"Main", "Visuals"}
+})
 
+do
+    local col = AimMain:column({})
+    local sec = col:section({
+        name = "Aimbot", 
+        size = 1, 
+        icon = GetImage("Aimlock.png"), 
+        fading = true
+    })
     
+    sec:toggle({name = "Master Aimbot", flag = "MasterAimbot", default = false})
+    sec:toggle({name = "Enabled", flag = "AimbotEnabled", default = false})
+    sec:dropdown({name = "Aim Part", flag = "AimPart", items = {"Head", "Torso", "Left Arm", "Right Arm", "Left Leg", "Right Leg"}, default = "Head"})
+    sec:slider({name = "Smoothness", flag = "AimbotSmoothness", min = 1, max = 20, default = 1})
+    sec:slider({name = "FOV", flag = "AimbotFov", min = 30, max = 500, default = 100, suffix = "px"})
+    sec:toggle({name = "Wall Check", flag = "WallCheck", default = false})
+    sec:toggle({name = "Team Check", flag = "TeamCheck", default = false})
+    sec:toggle({name = "Target Players", flag = "AimbotPlayer", default = true, seperator = true})
+end
+
+do
+    local col = AimVisuals:column({})
+    local sec = col:section({
+        name = "Visuals",
+        size = 1,
+        icon = GetImage("FieldOfView2.png")
+    })
+    
+    sec:toggle({name = "Show FOV", flag = "FovVisible", default = false, seperator = true})
+end
+
+-- =============================================
+-- ESP TAB
+-- =============================================
+local ESPPlayers, ESPWorld = window:tab({
+    name = "ESP",
+    icon = GetImage("ESP.png"),
+    tabs = {"Players", "World"}
+})
+
+do
+    local col = ESPPlayers:column({})
+    local sec = col:section({
+        name = "Player ESP",
+        size = 1,
+        icon = GetImage("ESP.png"),
+        fading = true
+    })
+    
+    sec:toggle({name = "Master ESP", flag = "MasterESP", default = false})
+    sec:toggle({name = "Show Box", flag = "ShowBox", default = true, seperator = true})
+end
+
+do
+    local col = ESPWorld:column({})
+    local sec = col:section({
+        name = "World ESP",
+        size = 1,
+        icon = GetImage("World.png")
+    })
+    
+    sec:toggle({name = "Dropped Items", flag = "DroppedItemESP", default = false})
+    sec:toggle({name = "Corpses", flag = "CorpseESP", default = false})
+    sec:toggle({name = "Containers", flag = "ContainerESP", default = false})
+    sec:toggle({name = "Exit Locations", flag = "ExitESP", default = false, seperator = true})
+end
+
+-- =============================================
+-- MOVEMENT TAB
+-- =============================================
+local MoveMain = window:tab({
+    name = "Movement",
+    icon = GetImage("Node.png"),
+    tabs = {"Main"}
+})
+
+do
+    local col = MoveMain:column({})
+    local sec = col:section({
+        name = "Movement",
+        size = 1,
+        icon = GetImage("Node.png")
+    })
+    
+    sec:toggle({name = "Speed Hack", flag = "SpeedHack", default = false})
+    sec:slider({name = "Speed", flag = "SpeedHackSpeed", min = 17, max = 100, default = 17})
+    sec:toggle({name = "Bunny Hop", flag = "BunnyHop", default = false, seperator = true})
+end
+
+-- =============================================
+-- WORLD TAB
+-- =============================================
+local WorldT = window:tab({
+    name = "World",
+    icon = GetImage("World.png"),
+    tabs = {"Main"}
+})
+
+do
+    local col = WorldT:column({})
+    local sec = col:section({
+        name = "World",
+        size = 1,
+        icon = GetImage("World.png")
+    })
+    
+    sec:toggle({name = "Full Brightness", flag = "FullBrightness", default = false})
+    sec:toggle({name = "No Fog", flag = "NoFog", default = false, seperator = true})
+end
+
 library:init_config(window)
